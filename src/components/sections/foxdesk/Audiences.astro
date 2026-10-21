@@ -1,0 +1,37 @@
+---
+/** Who FoxDesk is for: a row of example kinds of business (not a limit), then the one test that matters. */
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import { audiences } from '@data/foxdesk';
+---
+
+<section id="for-who" class="section" aria-labelledby="audiences-title">
+  <div class="container">
+    <SectionHeader id="audiences-title" eyebrow={audiences.eyebrow} title={audiences.title} />
+    <ul class="audiences" data-reveal>
+      {audiences.items.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="audiences__text" data-reveal>{audiences.text}</p>
+  </div>
+</section>
+
+<style>
+  .audiences {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+
+  li {
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    font-size: var(--text-sm);
+  }
+
+  .audiences__text {
+    max-width: 44rem;
+    color: var(--color-text-muted);
+  }
+</style>

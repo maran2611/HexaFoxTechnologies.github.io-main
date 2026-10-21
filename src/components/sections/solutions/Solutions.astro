@@ -1,0 +1,72 @@
+---
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import Button from '@components/ui/Button.astro';
+import SolutionCard from './SolutionCard.astro';
+import { solutionsData } from '@data/solutions';
+import { withBase } from '@lib/url';
+---
+
+<section id="solutions" class="section solutions" aria-labelledby="solutions-title">
+  <!-- Anchor alias to preserve existing links/bookmarks referencing #team -->
+  <span id="team" class="anchor-alias" aria-hidden="true"></span>
+
+  <div class="container">
+    <SectionHeader
+      id="solutions-title"
+      eyebrow={solutionsData.eyebrow}
+      title={solutionsData.title}
+      intro={solutionsData.intro}
+      align="center"
+    />
+
+    <ul class="solutions__grid">
+      {solutionsData.cards.map((card, i) => <SolutionCard card={card} index={i} />)}
+    </ul>
+
+    <div class="solutions__cta" data-reveal style="--reveal-delay: 280ms">
+      <Button href={withBase(solutionsData.cta.href)} size="md">
+        {solutionsData.cta.label} <span aria-hidden="true">→</span>
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .solutions {
+    position: relative;
+  }
+
+  .anchor-alias {
+    position: absolute;
+    top: calc(-1 * var(--header-h));
+    visibility: hidden;
+  }
+
+  .solutions__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+    margin-bottom: var(--space-7);
+  }
+
+  .solutions__cta {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (max-width: 960px) {
+    .solutions__grid {
+      grid-template-columns: 1fr;
+      max-width: 36rem;
+      margin-inline: auto;
+      gap: var(--space-4);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .solutions__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+  }
+</style>

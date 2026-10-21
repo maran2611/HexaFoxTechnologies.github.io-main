@@ -1,0 +1,83 @@
+---
+import HexMarker from '@components/ui/HexMarker.astro';
+import ChapterMedia from './ChapterMedia.astro';
+import type { StoryChapter } from '@data/story';
+
+interface Props {
+  chapter: StoryChapter;
+  index: number;
+  /** Heading level for the chapter title: 2 on the story page, 3 inside a section. */
+  level?: 2 | 3;
+}
+
+const { chapter, index, level = 3 } = Astro.props;
+const Heading = level === 2 ? 'h2' : 'h3';
+const number = String(index + 1).padStart(2, '0');
+const flipped = index % 2 === 1;
+---
+
+<li class:list={['chapter', { 'chapter--flipped': flipped }]}>
+  <HexMarker label={number} />
+  <div class="chapter__body">
+    <div class="chapter__text" data-reveal>
+      <Heading class="chapter__title">{chapter.title}</Heading>
+      {chapter.paragraphs.map((p) => <p>{p}</p>)}
+    </div>
+    <div class="chapter__media" data-reveal style="--reveal-delay: 120ms">
+      <ChapterMedia media={chapter.media} index={index} />
+    </div>
+  </div>
+</li>
+
+<style>
+  .chapter {
+    position: relative;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: var(--space-5);
+  }
+
+  .chapter__body {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(1.5rem, 1rem + 3vw, 4rem);
+    align-items: center;
+  }
+
+  .chapter--flipped .chapter__text {
+    order: 2;
+  }
+
+  .chapter__text {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .chapter__title {
+    font-size: var(--text-xl);
+  }
+
+  p {
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 860px) {
+    .chapter__body {
+      grid-template-columns: 1fr;
+    }
+
+    .chapter--flipped .chapter__text {
+      order: 0;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .chapter {
+      grid-template-columns: 1fr;
+    }
+
+    .chapter > :global(.hex-marker) {
+      display: none;
+    }
+  }
+</style>

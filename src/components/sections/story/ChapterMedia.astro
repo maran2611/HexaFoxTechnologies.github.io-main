@@ -1,0 +1,40 @@
+---
+/** Picks the right visual for a story chapter: generated art, a real photo or the name card. */
+import ArtFrame from '@components/ui/ArtFrame.astro';
+import NameCard from './NameCard.astro';
+import type { ChapterMedia } from '@data/story';
+import { getGeneratedImage } from '@lib/images';
+
+interface Props {
+  media: ChapterMedia;
+  index: number;
+}
+
+const { media, index } = Astro.props;
+---
+
+{media.kind === 'generated' && (
+  <ArtFrame
+    image={getGeneratedImage(media.name)}
+    alt={media.alt}
+    ratio="16 / 9"
+    highlight={[index + 1, index + 4]}
+  />
+)}
+{
+  media.kind === 'photo' && (
+    <div class="chapter-photo">
+      <ArtFrame image={media.src} alt={media.alt} ratio="3 / 4" />
+    </div>
+  )
+}
+{media.kind === 'name-card' && <NameCard />}
+
+<style>
+  /* Portrait photo at its natural ratio; keep it from filling the screen once chapters stack. */
+  @media (max-width: 860px) {
+    .chapter-photo {
+      max-width: 28rem;
+    }
+  }
+</style>

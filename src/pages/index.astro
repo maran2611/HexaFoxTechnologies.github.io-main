@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/hero/Hero.astro';
+import WhyUs from '@components/sections/why-us/WhyUs.astro';
+import Services from '@components/sections/services/Services.astro';
+import Product from '@components/sections/product/Product.astro';
+import Process from '@components/sections/process/Process.astro';
+import Solutions from '@components/sections/solutions/Solutions.astro';
+import Contact from '@components/sections/contact/Contact.astro';
+import { organization, website } from '@lib/schema';
+import { homeUrl } from '@lib/url';
+
+const home = homeUrl(Astro.site);
+---
+
+<BaseLayout schema={[organization(home), website(home)]}>
+  <Hero />
+  <WhyUs />
+  <Services />
+  <Product />
+  <Process />
+  <Solutions />
+  <Contact />
+</BaseLayout>
